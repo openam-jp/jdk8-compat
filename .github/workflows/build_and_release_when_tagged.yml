@@ -65,9 +65,9 @@ jobs:
       id: collect_artifact
       run: |
 
-        ## openam-<version>.war
+        ## Extract artifact(s)
         find . -name jdk8-compat*.jar \
-          | xargs -I% mv % ${ARTIFACT_DIR}/jdk8-compat-${{ steps.extract_version.outputs.VERSION }}.war
+          | xargs -I% mv % ${ARTIFACT_DIR}/jdk8-compat-${{ steps.extract_version.outputs.VERSION }}.jar
 
     - name: Create the Release
       id: create_release
@@ -88,19 +88,6 @@ jobs:
         echo ::set-output name=UPLOAD::https://uploads.github.com/repos/${{ github.repository }}/releases/${{ steps.create_release.outputs.id }}/assets
         ## usage: ${{ steps.api_url.outputs.RELEASE }}
         ## usage: ${{ steps.api_url.outputs.UPLOAD }}
-
-    # - name: Edit release description
-    #   run: |
-
-    #     JSON="{
-    #       \"body\": \"This project is subject to [the Common Development and Distribution License (CDDL)](LICENSE.md). Please check all the terms of the license before using these artifacts.\"
-    #     }"
-    #     curl -sS \
-    #       --request PATCH  \
-    #       --url "${{ steps.api_url.outputs.RELEASE }}" \
-    #       --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-    #       --header "content-type: application/json" \
-    #       --data "${JSON}"
 
     - name: Upload assets
       id: upload-release-asset 
