@@ -66,8 +66,8 @@ jobs:
       run: |
 
         ## Extract artifact(s)
-        find . -name jdk8-compat*.jar \
-          | xargs -I% mv % ${ARTIFACT_DIR}/jdk8-compat-${{ steps.extract_version.outputs.VERSION }}.jar
+        find . -name *.jar -not -name *-sources.* \
+          | xargs -I% mv % ${ARTIFACT_DIR}/.
 
     - name: Create the Release
       id: create_release
